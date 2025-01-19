@@ -1,1 +1,185 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Mobile App</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, system, sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+        }
+
+        .header {
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            padding: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin: 0.5rem 0;
+        }
+
+        button:active {
+            background: #0056b3;
+        }
+
+        .nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 1rem;
+            box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+        }
+
+        .nav-item {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .nav-item.active {
+            color: #007AFF;
+        }
+
+        .count {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function App() {
+            const [count, setCount] = React.useState(0);
+            const [activeTab, setActiveTab] = React.useState('home');
+            const [items, setItems] = React.useState([
+                'React mobile app',
+                'Click counter',
+                'Navigation tabs'
+            ]);
+
+            const addItem = () => {
+                setItems([...items, `Item ${items.length + 1}`]);
+            };
+
+            return (
+                <div>
+                    <header className="header">
+                        <h1>React Mobile App</h1>
+                    </header>
+
+                    <div className="container">
+                        {activeTab === 'home' && (
+                            <>
+                                <div className="card">
+                                    <h2>Counter</h2>
+                                    <div className="count">{count}</div>
+                                    <button onClick={() => setCount(count + 1)}>
+                                        Increment
+                                    </button>
+                                </div>
+
+                                <div className="card">
+                                    <h2>List</h2>
+                                    {items.map((item, index) => (
+                                        <p key={index}>{item}</p>
+                                    ))}
+                                    <button onClick={addItem}>Add Item</button>
+                                </div>
+                            </>
+                        )}
+
+                        {activeTab === 'about' && (
+                            <div className="card">
+                                <h2>About</h2>
+                                <p>This is a simple React mobile app.</p>
+                            </div>
+                        )}
+
+                        {activeTab === 'settings' && (
+                            <div className="card">
+                                <h2>Settings</h2>
+                                <p>App settings would go here.</p>
+                            </div>
+                        )}
+                    </div>
+
+                    <nav className="nav">
+                        <a 
+                            href="#" 
+                            className={`nav-item ${activeTab === 'home' ? 'active' : ''}`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setActiveTab('home');
+                            }}
+                        >
+                            Home
+                        </a>
+                        <a 
+                            href="#"
+                            className={`nav-item ${activeTab === 'about' ? 'active' : ''}`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setActiveTab('about');
+                            }}
+                        >
+                            About
+                        </a>
+                        <a 
+                            href="#"
+                            className={`nav-item ${activeTab === 'settings' ? 'active' : ''}`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setActiveTab('settings');
+                            }}
+                        >
+                            Settings
+                        </a>
+                    </nav>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
